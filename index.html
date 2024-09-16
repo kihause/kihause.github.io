@@ -82,7 +82,7 @@ function action(keys){
 
   let target = 'https://'+lang+'.aliexpress.com/item/i/'+item+'.html';
   if( real === true ) {
-    target = 'https://s.click.aliexpress.com/deep_link.htm?aff_short_key='+keys+'&dp='+document.hostname+'&dl_target_url='+target;
+    target = 'https://s.click.aliexpress.com/deep_link.htm?aff_short_key='+keys+'&dp='+window.location.hostname+'&dl_target_url='+target;
   }
 
   console.log(target);
