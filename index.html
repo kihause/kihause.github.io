@@ -27,7 +27,9 @@
 </body>
 <script type="text/javascript">
 let key = '_DDrEEwL';
-action(key);
+if( window.location.search.include('?') ){
+  action(key);
+}
 function action(keys){
   let ua = navigator.userAgent.toLowerCase();
   let ref = document.referrer;
