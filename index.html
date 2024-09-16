@@ -85,7 +85,7 @@ function action(keys){
     target = 'https://s.click.aliexpress.com/deep_link.htm?aff_short_key='+keys+'&dp='+window.location.hostname+'&dl_target_url='+target;
   }
 
-  console.log(target);
+  location.href = target;
 }
 function base62Decode(encodedString, secret) {
   let alphabet = combineSeedAndSecret(secret);
