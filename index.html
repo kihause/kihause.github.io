@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kihause</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <meta name="robots" content="index, follow">
+</head>
+<body class="text-center d-flex flex-column min-vh-100">
+  <section class="container">
+    <h1>Kihause</h1>
+  </section>
+  <main class="container">
+    <img class="img-fluid mt-4" title="Aliexpress" src="https://ae01.alicdn.com/kf/S9a1f2e2f9bb7410f80b86bde8e6d7237b.jpg_.webp">
+    <div class="mt-4">
+      <a class="btn btn-outline-primary" href="https://aliexpress.com">Shop Now</a>
+    </div>
+    <img class="img-fluid mt-4" title="Aliexpress" src="https://ae01.alicdn.com/kf/S3619e57974f148d087c950fe497cdf55q.jpg_.webp">
+    <div class="mt-4">
+      <a class="btn btn-outline-primary" href="https://aliexpress.com">Shop Now</a>
+    </div>
+  </main>
+  <footer class="border-top pt-4 pb-4 mt-auto">
+    Powered by <a href="/">Kihause</a> &copy; 2024
+  </footer>
+</body>
+<script type="text/javascript">
+let key = '_DDrEEwL';
+action(key);
+function action(keys){
+  let ua = navigator.userAgent.toLowerCase();
+  let ref = document.referrer;
+  let dom = window.location.hostname;
+  let q = window.location.search.split('?');
+  let lang = '';
+
+  if( q[1].includes('=') ){
+    lang = 'he';
+  } else if( q[1].includes('+') ){
+    lang = 'ja';
+  } else if( q[1].includes('-') ){
+    lang = 'ko';
+  } else if( q[1].includes('~') ){
+    lang = 'pt';
+  } else if( q[1].includes('_') ){
+    lang = 'es';
+  } else if( q[1].includes('&') ){
+    lang = 'fr';
+  } else if( q[1].includes('/') ){
+    lang = 'de';
+  } else if( q[1].includes('(') ){
+    lang = 'it';
+  } else if( q[1].includes(')') ){
+    lang = 'nl';
+  } else if( q[1].includes(':') ){
+    lang = 'ar';
+  } else if( q[1].includes('.') ){
+    lang = 'pl';
+  } else {
+    return;
+  }
+
+  let real = true;
+  if( containsWord(ua, 'google|bot|ahref') || document.referrer === "" ){
+    real = false;
+  }
+
+  let prefix = '';
+  if( document.referrer ){
+    let reff = new URL(document.referrer);
+    prefix = combineSeedAndSecret(reff.hostname);
+  }else{
+    prefix = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    real = false;
+  }
+
+  let id = q[1].replace(/[^a-zA-Z0-9]/g, '');
+  let item = base62Decode(id, prefix);
+
+  let target = 'https://'+lang+'.aliexpress.com/item/i/'+item+'.html';
+  if( real === true ) {
+    target = 'https://s.click.aliexpress.com/deep_link.htm?aff_short_key='+keys+'&dp='+document.hostname+'&dl_target_url='+target;
+  }
+
+  console.log(target);
+}
+function base62Decode(encodedString, secret) {
+  let alphabet = combineSeedAndSecret(secret);
+  let decodedValue = 0;
+  let base = 1;
+
+  for (let i = encodedString.length - 1; i >= 0; i--) {
+    const charIndex = alphabet.indexOf(encodedString[i]);
+    if (charIndex === -1) {
+      throw new Error("Invalid character in encoded string");
+    }
+    decodedValue += charIndex * base;
+    base *= 62;
+  }
+
+  return decodedValue;
+}
+function combineSeedAndSecret(secret) {
+  const seed = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  // Hapus karakter titik (.) dari secret dan pastikan tidak ada duplikat
+  secret = [...new Set(secret.replace(/\./g, ''))].join('');
+
+  // Buat set dari secret untuk mendapatkan karakter unik
+  const secretSet = new Set(secret);
+
+  // Hapus karakter dari seed jika ada di secretSet dan pastikan tidak ada duplikat dalam seed baru
+  const newSeed = [...new Set(seed.split('').filter(char => !secretSet.has(char)))].join('');
+
+  // Gabungkan seed baru dan secret
+  return newSeed + secret;
+}
+function base62Encode(number, secret) {
+  const seed = combineSeedAndSecret(secret);
+  const base = seed.length;
+
+  if (number < 0) {
+    throw new Error('Number cannot be negative');
+  }
+
+  let encodedString = '';
+
+  while (number > 0) {
+    const remainder = number % base;
+    encodedString = seed[remainder] + encodedString;
+    number = Math.floor(number / base);
+  }
+
+  return encodedString;
+}
+function containsWord(string, word) {
+  const regex = '/'+word+'/i';
+  return string.match(regex);
+}
+</script>
+</html>
